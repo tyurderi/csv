@@ -8,5 +8,10 @@
             "email": "tyurderi@yahoo.de"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "WCKZ\\CsvUtil\\": "src/"
+        }
+    }
 }
