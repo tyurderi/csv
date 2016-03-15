@@ -34,8 +34,8 @@ class Writer
             $handle,
             $row,
             $this->options->getDelimiter(),
-            $this->options->getEnclosure(),
-            $this->options->getEscape()
+            $this->options->getEnclosure()//,
+   //         $this->options->getEscape()
         );
     }
 
