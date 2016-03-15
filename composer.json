@@ -1,0 +1,12 @@
+{
+    "name": "tyurderi/csv",
+    "description": "CSV Reader & Writer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tyurderi",
+            "email": "tyurderi@yahoo.de"
+        }
+    ],
+    "require": {}
+}
