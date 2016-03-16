@@ -11,7 +11,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $options = new WCKZ\CsvUtil\Options();
 $writer  = new WCKZ\CsvUtil\Writer($options);
 
-$writer->write('test.csv', array(
+$csv = $writer->writeString(array(
     array(
         'id'    => 1,
         'name'  => 'Hello World'
@@ -23,7 +23,7 @@ $writer->write('test.csv', array(
 ));
 
 $reader = new WCKZ\CsvUtil\Reader($options);
-$csv    = $reader->read('test.csv');
+$csv    = $reader->readString($csv);
 
 var_dump($csv);
 

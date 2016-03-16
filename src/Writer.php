@@ -12,9 +12,9 @@ class Writer
         $this->options = $options;
     }
 
-    public function write($filename, $rows)
+    public function writeString($rows)
     {
-        $handle = fopen($filename, 'w');
+        $handle = fopen('php://memory', 'w');
         $header = array_keys($rows[0]);
 
         $this->writeLine($handle, $header);
@@ -23,9 +23,18 @@ class Writer
             $this->writeLine($handle, $row);
         }
 
+        rewind($handle);
+        $contents = stream_get_contents($handle);
+
         fclose($handle);
 
-        return $rows;
+        return $contents;
+    }
+
+    public function write($filename, $rows)
+    {
+        $content = $this->writeString($rows);
+        file_put_contents($filename, $content);
     }
 
     protected function writeLine($handle, $row)

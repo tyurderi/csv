@@ -12,9 +12,12 @@ class Reader
         $this->options = $options;
     }
 
-    public function read($filename)
+    public function readString($string)
     {
-        $handle = fopen($filename, 'r');
+        $handle = fopen('php://memory', 'r+');
+        fwrite($handle, $string);
+        rewind($handle);
+
         $header = $this->readLine($handle);
 
         $rows   = array();
@@ -32,6 +35,13 @@ class Reader
         fclose($handle);
 
         return $rows;
+    }
+
+    public function read($filename)
+    {
+        $string = file_get_contents($filename);
+
+        return $this->readString($string);
     }
 
     protected function readLine($handle)
