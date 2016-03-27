@@ -35,7 +35,7 @@ class Writer
     {
         self::applyOptions($options);
 
-        $content = self::writeString($rows);
+        $content = self::writeString($rows, $options);
         file_put_contents($filename, $content);
     }
 
