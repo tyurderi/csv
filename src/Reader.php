@@ -5,28 +5,23 @@ namespace TM\Csv;
 class Reader
 {
 
-    protected $options = null;
+    /**
+     * @var Options
+     */
+    protected static $options = null;
 
-    public function __construct(Options $options = null)
+    public static function readString($string, Options $options = null)
     {
-        if($options === null)
-        {
-            $options = Options::getInstance();
-        }
+        self::applyOptions($options);
 
-        $this->options = $options;
-    }
-
-    public function readString($string)
-    {
         $handle = fopen('php://memory', 'r+');
         fwrite($handle, $string);
         rewind($handle);
 
-        $header = $this->readLine($handle);
+        $header = self::readLine($handle);
 
         $rows   = array();
-        while($row = $this->readLine($handle))
+        while($row = self::readLine($handle))
         {
             $rowItem = array();
             foreach($row as $i => $value)
@@ -42,22 +37,34 @@ class Reader
         return $rows;
     }
 
-    public function read($filename)
+    public static function read($filename, Options $options = null)
     {
         $string = file_get_contents($filename);
 
-        return $this->readString($string);
+        return self::readString($string, $options);
     }
 
-    protected function readLine($handle)
+    protected static function readLine($handle)
     {
         return fgetcsv(
             $handle,
-            $this->options->getLength(),
-            $this->options->getDelimiter(),
-            $this->options->getEnclosure(),
-            $this->options->getEscape()
+            self::$options->getLength(),
+            self::$options->getDelimiter(),
+            self::$options->getEnclosure(),
+            self::$options->getEscape()
         );
+    }
+
+    protected static function applyOptions(Options $options = null)
+    {
+        if($options !== null)
+        {
+            self::$options = $options;
+        }
+        else
+        {
+            self::$options = Options::getInstance();
+        }
     }
 
 }

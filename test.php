@@ -9,9 +9,8 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 TM\Csv\Options::getInstance(0, ';');
-$writer  = new TM\Csv\Writer();
 
-$csv = $writer->writeString(array(
+$csv = TM\Csv\Writer::writeString(array(
     array(
         'id'    => 1,
         'name'  => 'Hello World'
@@ -22,8 +21,7 @@ $csv = $writer->writeString(array(
     )
 ));
 
-$reader = new TM\Csv\Reader();
-$csv    = $reader->readString($csv);
+$csv = TM\Csv\Reader::readString($csv);
 
 var_dump($csv);
 

@@ -5,27 +5,22 @@ namespace TM\Csv;
 class Writer
 {
 
-    protected $options = null;
+    /**
+     * @var Options
+     */
+    protected static $options = null;
 
-    public function __construct(Options $options = null)
+    public static function writeString($rows, Options $options = null)
     {
-        if($options === null)
-        {
-            $options = Options::getInstance();
-        }
+        self::applyOptions($options);
 
-        $this->options = $options;
-    }
-
-    public function writeString($rows)
-    {
         $handle = fopen('php://memory', 'w');
         $header = array_keys($rows[0]);
 
-        $this->writeLine($handle, $header);
+        self::writeLine($handle, $header);
         foreach($rows as $row)
         {
-            $this->writeLine($handle, $row);
+            self::writeLine($handle, $row);
         }
 
         rewind($handle);
@@ -36,21 +31,34 @@ class Writer
         return $contents;
     }
 
-    public function write($filename, $rows)
+    public static function write($filename, $rows, Options $options = null)
     {
-        $content = $this->writeString($rows);
+        self::applyOptions($options);
+
+        $content = self::writeString($rows);
         file_put_contents($filename, $content);
     }
 
-    protected function writeLine($handle, $row)
+    protected static function writeLine($handle, $row)
     {
         return fputcsv(
             $handle,
             $row,
-            $this->options->getDelimiter(),
-            $this->options->getEnclosure()//,
-   //         $this->options->getEscape()
+            self::$options->getDelimiter(),
+            self::$options->getEnclosure()
         );
+    }
+
+    protected static function applyOptions(Options $options = null)
+    {
+        if($options !== null)
+        {
+            self::$options = $options;
+        }
+        else
+        {
+            self::$options = Options::getInstance();
+        }
     }
 
 }
