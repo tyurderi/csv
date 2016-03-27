@@ -1,14 +1,19 @@
 <?php
 
-namespace WCKZ\CsvUtil;
+namespace TM\Csv;
 
 class Reader
 {
 
     protected $options = null;
 
-    public function __construct(Options $options)
+    public function __construct(Options $options = null)
     {
+        if($options === null)
+        {
+            $options = Options::getInstance();
+        }
+
         $this->options = $options;
     }
 

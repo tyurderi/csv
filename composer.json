@@ -11,7 +11,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "WCKZ\\CsvUtil\\": "src/"
+            "TM\\Csv\\": "src/"
         }
     }
 }

@@ -1,17 +1,19 @@
 <?php
 
-namespace WCKZ\CsvUtil;
+namespace TM\Csv;
 
 class Options
 {
 
-    protected $length = 0;
+    protected static $instance = null;
+
+    protected $length    = 0;
 
     protected $delimiter = ',';
 
     protected $enclosure = '"';
 
-    protected $escape = '\\';
+    protected $escape    = '\\';
 
     public function __construct($length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
     {
@@ -19,6 +21,16 @@ class Options
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
         $this->escape    = $escape;
+    }
+
+    public static function getInstance($length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
+    {
+        if(self::$instance === null)
+        {
+            self::$instance = new self($length, $delimiter, $enclosure, $escape);
+        }
+
+        return self::$instance;
     }
 
     public function getLength()

@@ -8,8 +8,8 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$options = new WCKZ\CsvUtil\Options();
-$writer  = new WCKZ\CsvUtil\Writer($options);
+TM\Csv\Options::getInstance(0, ';');
+$writer  = new TM\Csv\Writer();
 
 $csv = $writer->writeString(array(
     array(
@@ -22,7 +22,7 @@ $csv = $writer->writeString(array(
     )
 ));
 
-$reader = new WCKZ\CsvUtil\Reader($options);
+$reader = new TM\Csv\Reader();
 $csv    = $reader->readString($csv);
 
 var_dump($csv);
